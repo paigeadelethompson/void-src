@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        arch: ["aarch64-musl", "armv7l-musl", "x86_64-musl"]
+        arch: ["aarch64-musl", "armv7l-musl", "x86_64-musl", "aarch64-glibc", "armv7l-glibc", "x86_64-glibc"]
     permissions:
       contents: write
       pull-requests: read
@@ -21,9 +21,25 @@ jobs:
     - name: Get date tag
       id: date_id
       run: echo "date_id=$(cat date_id)" >> $GITHUB_ENV
-    - name: create docker image
+    - if: matrix.arch == 'aarch64-musl' || matrix.arch == 'armv7l-musl' || matrix.arch == 'x86_64-musl'
+      name: create docker image
       run: |
         docker import --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
+    - if: matrix.arch == 'aarch64-glibc'
+      name: create docker image
+      run: |
+        docker import --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-aarch64-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
+    - if: matrix.arch == 'x86_64-glibc'
+      name: create docker image
+      run: |
+        docker import --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-x86_64-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
+    - if: matrix.arch == 'armv7l-glibc'
+      name: create docker image
+      run: |
+        docker import --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-armv7l-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
         docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
     - name: Log in to Docker Hub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
