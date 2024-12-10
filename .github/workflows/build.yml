@@ -24,8 +24,8 @@ jobs:
     - if: matrix.arch == 'aarch64-glibc'
       name: create docker image
       run: |
-        docker import https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz paigeadelethompson/void:${{ matrix.arch }}-${{ env.date_id }}
-        docker tag paigeadelethompson/void:${{ matrix.arch }}-${{ env.date_id }} paigeadelethompson/void:${{ matrix.arch }}-latest
+        docker import https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
     - name: Log in to Docker Hub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
