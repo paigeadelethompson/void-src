@@ -21,11 +21,25 @@ jobs:
     - name: Get date tag
       id: date_id
       run: echo "date_id=$(cat date_id)" >> $GITHUB_ENV
-    #|| matrix.arch == 'armv7l-musl' || matrix.arch == 'x86_64-musl' || matrix.arch == 'armv6l-musl'
     - if: matrix.arch == 'aarch64-musl' 
       name: create docker image
       run: |
         docker import --platform "linux/arm64" --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
+    - if: matrix.arch == 'armv7l-musl' 
+      name: create docker image
+      run: |
+        docker import --platform "linux/arm/v7" --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
+    - if: matrix.arch == 'x86_64-musl' 
+      name: create docker image
+      run: |
+        docker import --platform "linux/amd64" --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
+    - if: matrix.arch == 'armv6l-musl' 
+      name: create docker image
+      run: |
+        docker import --platform "linux/arm/v6" --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-${{ matrix.arch }}-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
         docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
     - if: matrix.arch == 'aarch64-glibc'
       name: create docker image
