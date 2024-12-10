@@ -7,7 +7,7 @@ jobs:
   build:
     strategy:
       matrix:
-        arch: ["aarch64-musl", "armv7l-musl", "armv6-musl", "x86_64-musl", "i686-musl"]
+        arch: ["aarch64-musl", "armv7l-musl", "x86_64-musl"]
     permissions:
       contents: write
       pull-requests: read
