@@ -54,7 +54,7 @@ jobs:
     - if: matrix.arch == 'armv7l-glibc'
       name: create docker image
       run: |
-        docker import --platform "linux/arm/v7 --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-armv7l-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
+        docker import --platform "linux/arm/v7" --change 'CMD /bin/bash' https://repo-default.voidlinux.org/live/current/void-armv7l-ROOTFS-${{ env.date_id }}.tar.xz ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }}
         docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
     - if: matrix.arch == 'i686-glibc'
       name: create docker image
