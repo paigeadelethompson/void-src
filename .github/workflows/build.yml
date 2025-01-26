@@ -68,7 +68,7 @@ jobs:
         docker tag ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest
     - name: xbps-packages
       run: |
-	docker build -t void-packages -t ${{ secrets.DOCKER_USERNAME }}/void-packages:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-lates
+	docker build --build-arg USERNAME=${{ secrets.DOCKER_USERNAME }} --build-arg TAG=${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-latest -t void-packages -t ${{ secrets.DOCKER_USERNAME }}/void-packages:${{ matrix.arch }}-${{ env.date_id }} ${{ secrets.DOCKER_USERNAME }}/void:${{ matrix.arch }}-lates
     - name: Log in to Docker Hub
       uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
       with:
