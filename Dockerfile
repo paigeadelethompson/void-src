@@ -18,6 +18,8 @@ RUN rm -rf /usr/bin/qemu-*-static ; true
 
 WORKDIR /usr/src/void-packages
 
+RUN chown -R root:nogroup . 
+
 USER nobody
 
 RUN ./xbps-src binary-bootstrap
