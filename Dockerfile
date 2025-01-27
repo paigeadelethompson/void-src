@@ -20,6 +20,8 @@ WORKDIR /usr/src/void-packages
 
 RUN chown -R root:nogroup . 
 
+RUN chmod 0770 .
+
 USER nobody
 
 RUN ./xbps-src binary-bootstrap
