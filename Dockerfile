@@ -27,3 +27,5 @@ RUN chmod 0770 .
 USER nobody
 
 RUN ./xbps-src binary-bootstrap ; true
+
+CMD /bin/bash
