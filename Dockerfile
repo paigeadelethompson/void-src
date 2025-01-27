@@ -10,9 +10,13 @@ RUN xbps-install -Suy
 
 RUN xbps-install -Suy xbps
 
-RUN xbps-install -Suy gcc-ada git make bsdtar patch pkg-config curl ca-certificates
+RUN xbps-install -Suy gcc-ada git make bsdtar patch pkg-config curl ca-certificates wget
 
-RUN git clone https://github.com/void-linux/void-packages.git
+RUN wget https://github.com/void-linux/void-packages/archive/refs/heads/master.zip
+
+RUN unzip master.zip
+
+RUN mv void-packages-master void-packages
 
 WORKDIR /usr/src/void-packages
 
