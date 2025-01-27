@@ -1,8 +1,8 @@
-ARG USERNAME="paigeadele"
+ARG IMAGE=paigeadele/void:latest
 
 ARG TAG="armr64" 
 
-FROM ${USERNAME}/void:${TAG} AS base
+FROM ${IMAGE} AS base
 
 WORKDIR /usr/src
 
@@ -15,4 +15,3 @@ WORKDIR /usr/src/void-packages
 USER nobody
 
 RUN ./xbps-src binary-bootstrap
-
