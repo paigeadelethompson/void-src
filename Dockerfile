@@ -10,7 +10,7 @@ RUN xbps-install -Suy
 
 RUN xbps-install -Suy xbps
 
-RUN xbps-install -Suy gcc-ada git make bsdtar patch pkg-config curl ca-certificates wget
+RUN xbps-install -Suy gcc-ada git make bsdtar patch pkg-config curl ca-certificates wget unzip
 
 RUN wget https://github.com/void-linux/void-packages/archive/refs/heads/master.zip
 
