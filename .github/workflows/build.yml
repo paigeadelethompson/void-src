@@ -21,6 +21,10 @@ jobs:
     - name: Get date tag
       id: date_id
       run: echo "date_id=$(cat date_id)" >> $GITHUB_ENV
+    - name: install tools
+      run: |
+        sudo apt update
+        sudo apt -y install binfmt-support qemu-user-static
     - if: matrix.arch == 'aarch64-musl' 
       name: create docker image
       run: |
